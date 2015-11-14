@@ -1,0 +1,39 @@
+<config active="true" xmlns="config">
+
+    <description>Some information about test</description>
+
+    <patch url="/file/create" multipart="true">
+        <header name="Gzip" value="yes"/>
+        <header name="asd" value="asd"/>
+        <body>
+            <param name="test" value="1"/>
+            <param name="test1" value="2"/>
+            <param name="test2" value="3"/>
+            <param name="test3" value="4"/>
+            <file name="file" path="/data.txt" />
+            <file name="file2" path="/data.txt" fileName="data1.txt"/>
+        </body>
+        <response code="400" file="/action_1.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </patch>
+
+    <patch url="/file/create1">
+        <header name="Gzip1" value="yes1"/>
+        <header name="asd1" value="asd1"/>
+
+        <body>
+            <param name="test" value="1"/>
+        </body>
+        <response code="200" file="/action_3.json"/>
+    </patch>
+
+    <patch url="/file/create">
+        <response code="400" file="/action_4.json"/>
+    </patch>
+
+</config>
+
+
+
+

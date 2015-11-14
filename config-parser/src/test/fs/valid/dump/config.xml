@@ -1,0 +1,14 @@
+<config active="true" xmlns="config">
+
+    <description>Some information about test</description>
+
+    <dump file="/action_1.json">
+        <sql>SELECT * FROM t_user WHERE id = 1</sql>
+        <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+    </dump>
+
+</config>
+
+
+
+

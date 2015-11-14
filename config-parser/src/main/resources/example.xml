@@ -1,0 +1,185 @@
+<config active="true" patch=" path to patch or default patch will be applied " xmlns="config">
+
+    <description>
+        Some information about test
+    </description>
+
+    <!--
+        Translated as multipart request because multiple files are present
+    -->
+
+    <post url="/file/create">
+        <header name="Gzip" value="yes"/>
+        <header name="asd" value="asd"/>
+        <body>
+            <param name="test" value="1"/>
+            <param name="test1" value="2"/>
+            <param name="test2" value="3"/>
+            <param name="test3" value="4"/>
+            <file name="file" path="/data.txt" fileName="data.txt"/>
+            <file name="file2" path="/data.txt" fileName="data1.txt"/>
+        </body>
+        <response code="400" file="/action_1.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </post>
+
+    <!--
+        Also multipart because marker is attached
+    -->
+
+    <post url="/file/create" multipart="true">
+        <body>
+            <param name="test" value="1"/>
+            <param name="test1" value="2"/>
+            <param name="test2" value="3"/>
+            <param name="test3" value="4"/>
+        </body>
+        <response code="400" file="/action_2.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </post>
+
+    <!--
+        Simple http post request with some header
+        Response should contain 400 and json schema like in action_3.json file
+        and header content type with value application/json; charset=utf-8
+    -->
+
+    <post url="/file/create">
+        <header name="Gzip" value="yes"/>
+        <header name="asd" value="asd"/>
+
+        <body>
+            <param name="test" value="1"/>
+        </body>
+        <response code="400" file="/action_3.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </post>
+
+    <!--
+        post without arguments in a http body and http headers
+        Response should contain 400 and json schema like in action_4.json file
+    -->
+    <post url="/file/create">
+        <response code="400" file="/action_4.json"/>
+    </post>
+
+    <!--
+        get without additional headers.
+        Response should contain Content-Type Header with value application/json; charset=utf-8
+    -->
+    <get url="/file?folder_id=15">
+        <response code="200" file="/action_5.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </get>
+
+    <!--
+        delete user by id = 1 without additional headers.
+        Response should contain 200 http status code
+    -->
+
+    <delete url="/user/1">
+        <response code="200"/>
+    </delete>
+
+    <!--
+        get user by id = 1 without additional headers.
+        Response should contain 200 http status code
+    -->
+
+    <get url="/user/1">
+        <response code="200"/>
+    </get>
+
+    <!--
+        dump command could be executed in any block.
+        For example before and after delete command
+   -->
+
+    <dump file="/action_8.json">
+        <sql>SELECT * FROM t_user WHERE id = 1;</sql>
+        <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+    </dump>
+
+    <delete url="/user/1">
+        <response code="200"/>
+    </delete>
+
+    <dump file="/action_10.json">
+        <sql>SELECT * FROM t_user WHERE id = 1;</sql>
+        <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+    </dump>
+
+    <!--
+        Check any content with equals method
+    -->
+
+    <get url="/css">
+        <response code="200" file="/action_11.css">
+            <header name="Content-Type" value="text/css"/>
+        </response>
+    </get>
+
+    <get url="/image/1">
+        <response code="200" file="/action_12.jpeg">
+            <header name="Content-Type" value="image/jpeg"/>
+        </response>
+    </get>
+
+    <!--
+        Authentication into API with login/password combination
+    -->
+
+    <role credentials="/_credentials/administrator.xml">
+        <delete url="/user/1">
+            <response code="200"/>
+        </delete>
+    </role>
+
+    <role credentials="/_credentials/user_no_delete_permissions.xml">
+
+        <dump file="/action_10.json">
+            <sql>SELECT * FROM t_user WHERE id = 1;</sql>
+            <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+        </dump>
+
+        <delete url="/user/1">
+            <response code="200"/>
+        </delete>
+
+        <dump file="/action_10.json">
+            <sql>SELECT * FROM t_user WHERE id = 1;</sql>
+            <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+        </dump>
+    </role>
+
+    <put url="/abc">
+        <header name="asd" value="asd"/>
+        <response code="200"/>
+    </put>
+
+    <patch url="/abx">
+        <response code="200" file="abs.txt"/>
+    </patch>
+
+    <!--
+        TODO:
+        1. assert xpath/jpath
+        2. xml support
+        3. oauth/oauth2/default
+        4. default headers (static config)
+        5. http code range?
+        6. IF CONDITION supporting?
+
+        1. maven central installation
+        2. trial/valid version option
+        3. on fail strategy (send email/do nothing)
+    -->
+</config>
+
+
+
+

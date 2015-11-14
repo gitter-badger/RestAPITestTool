@@ -1,0 +1,78 @@
+<config active="true" patch=" path to patch or default patch will be applied " xmlns="config">
+
+    <description>
+    </description>
+
+    <!--
+        Translated as multipart request because multiple files are present
+    -->
+
+    <post url="">
+        <body>
+            <param name="" value=""/>
+            <file name="" path="" fileName=""/>
+        </body>
+        <response code="700" file="/action_1.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </post>
+
+    <!--
+        Also multipart because marker is attached
+    -->
+
+    <trace url="/file/create" multipart="true">
+        <body>
+            <param name="test" value="1"/>
+            <param name="test1" value="2"/>
+            <param name="test2" value="3"/>
+            <param name="test3" value="4"/>
+        </body>
+        <response code="400" file="/action_2.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </trace>
+
+    <!--
+        Simple http post request with some header
+        Response should contain 400 and json schema like in action_3.json file
+        and header content type with value application/json; charset=utf-8
+    -->
+
+    <get url="">
+        <header name="" value="yes"/>
+        <header name="asd" value=""/>
+
+        <body>
+            <param name="test" value="1"/>
+        </body>
+    </get>
+
+    <!--
+        post without arguments in a http body and http headers
+        Response should contain 400 and json schema like in action_4.json file
+    -->
+    <post url="/file/create">
+        <response file="/action_4.json"/>
+    </post>
+
+    <!--
+        get without additional headers.
+        Response should contain Content-Type Header with value application/json; charset=utf-8
+    -->
+    <delete url="/file?folder_id=15"/>
+
+    <!--
+        delete user by id = 1 without additional headers.
+        Response should contain 200 http status code
+    -->
+
+    <dump>
+        <sql>11</sql>
+    </dump>
+
+</config>
+
+
+
+

@@ -1,0 +1,24 @@
+<config active="true" xmlns="config">
+
+    <description>Some information about test</description>
+
+    <role credentials="/_credentials/user_no_delete_permissions.xml">
+
+        <delete url="/user/1">
+            <response code="200"/>
+        </delete>
+
+        <dump file="/action_10.json">
+            <sql>SELECT * FROM t_user WHERE id = 1;</sql>
+            <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+        </dump>
+
+        <get url="/user/1">
+            <response code="200"/>
+        </get>
+    </role>
+</config>
+
+
+
+

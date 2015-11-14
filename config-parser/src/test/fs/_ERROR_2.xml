@@ -1,0 +1,69 @@
+<config active="true" patch=" path to patch or default patch will be applied " xmlns="config">
+
+    <description>
+        Some information about test
+    </description>
+
+    <get url="/css">
+        <response code="200" file="/action_11.css">
+            <header name="Content-Type" value="text/css"/>
+        </response>
+    </get>
+
+    <get url="/image/1">
+        <response code="200" file="/action_12.jpeg">
+            <header name="Content-Type" value="image/jpeg"/>
+        </response>
+    </get>
+
+    <!--
+        Authentication into API with login/password combination
+    -->
+
+    <role credentials="/_credentials/administrator.xml">
+        <delete url="/user/1">
+            <response code="200"/>
+        </delete>
+    </role>
+
+    <role credentials=" ">
+
+        <dump file="/action_10.json">
+            <sql>SELECT * FROM t_user WHERE id = 1;</sql>
+            <sql>SELECT * FROM t_comments c WHERE c.user_id=1</sql>
+        </dump>
+
+        <delete url="/user/1">
+            <response code="200"/>
+        </delete>
+
+        <dump file="/action_10.json"/>
+    </role>
+
+    <put url="/abc">
+        <header name="" value=""/>
+        <response code=""/>
+    </put>
+
+    <patch url="">
+        <response code="-1" file="abs.txt"/>
+    </patch>
+
+    <!--
+        TODO:
+        1. assert xpath/jpath
+        2. xml support
+        3. oauth/oauth2/default
+        4. default headers (static config)
+        5. http code range?
+        6. IF CONDITION supporting?
+
+        1. maven central installation
+        2. trial/valid version option
+        3. on fail strategy (send email/do nothing)
+    -->
+</config>
+
+
+
+

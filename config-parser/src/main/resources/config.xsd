@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:schema xmlns:x="http://www.w3.org/2001/XMLSchema"
+          targetNamespace="config"
+          xmlns:tns="config"
+          elementFormDefault="qualified">
+
+    <x:element name="config">
+        <x:complexType>
+            <x:choice maxOccurs="unbounded">
+                <x:element name="description" minOccurs="1" maxOccurs="1">
+                    <x:simpleType>
+                        <x:restriction base="x:string">
+                            <x:minLength value="10"/>
+                        </x:restriction>
+                    </x:simpleType>
+                </x:element>
+                <x:element name="get" type="tns:get" minOccurs="0" maxOccurs="unbounded"/>
+                <x:element name="post" type="tns:post" minOccurs="0" maxOccurs="unbounded"/>
+                <x:element name="put" type="tns:put" minOccurs="0" maxOccurs="unbounded"/>
+                <x:element name="patch" type="tns:patch" minOccurs="0" maxOccurs="unbounded"/>
+                <x:element name="delete" type="tns:delete" minOccurs="0" maxOccurs="unbounded"/>
+
+                <x:element name="dump" type="tns:dump" minOccurs="0" maxOccurs="unbounded"/>
+                <x:element name="role" type="tns:role" minOccurs="0" maxOccurs="unbounded"/>
+            </x:choice>
+
+            <x:attribute name="active" type="x:boolean" use="required" fixed="true"/>
+            <x:attribute name="patch" type="tns:nonEmptyString" use="optional"/>
+        </x:complexType>
+    </x:element>
+
+    <x:complexType name="response">
+        <x:sequence>
+            <x:element name="header" type="tns:header" minOccurs="0" maxOccurs="unbounded"/>
+        </x:sequence>
+
+        <x:attribute name="code" use="required">
+            <x:simpleType>
+                <x:restriction base="x:int">
+                    <x:pattern value="[2-5]\d{2}"/>
+                </x:restriction>
+            </x:simpleType>
+        </x:attribute>
+        <x:attribute name="file" type="tns:nonEmptyString" use="optional"/>
+    </x:complexType>
+
+    <x:complexType name="get">
+        <x:sequence>
+            <x:element name="header" type="tns:header" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="response" type="tns:response" minOccurs="1" maxOccurs="1"/>
+        </x:sequence>
+
+        <x:attribute name="url" type="tns:nonEmptyString" use="required"/>
+    </x:complexType>
+    <!--
+
+        TODO base class for requests
+
+    -->
+    <x:complexType name="post">
+        <x:sequence>
+            <x:element name="header" type="tns:header" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="body" type="tns:body" minOccurs="0" maxOccurs="1"/>
+            <x:element name="response" type="tns:response" minOccurs="1" maxOccurs="1"/>
+        </x:sequence>
+
+        <x:attribute name="url" type="tns:nonEmptyString" use="required"/>
+        <x:attribute name="multipart" type="x:boolean" use="optional"/>
+    </x:complexType>
+
+    <x:complexType name="put">
+        <x:sequence>
+            <x:element name="header" type="tns:header" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="body" type="tns:body" minOccurs="0" maxOccurs="1"/>
+            <x:element name="response" type="tns:response" minOccurs="1" maxOccurs="1"/>
+        </x:sequence>
+
+        <x:attribute name="url" type="tns:nonEmptyString" use="required"/>
+        <x:attribute name="multipart" type="x:boolean" use="optional"/>
+    </x:complexType>
+
+    <x:complexType name="patch">
+        <x:sequence>
+            <x:element name="header" type="tns:header" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="body" type="tns:body" minOccurs="0" maxOccurs="1"/>
+            <x:element name="response" type="tns:response" minOccurs="1" maxOccurs="1"/>
+        </x:sequence>
+
+        <x:attribute name="url" type="tns:nonEmptyString" use="required"/>
+        <x:attribute name="multipart" type="x:boolean" use="optional"/>
+    </x:complexType>
+
+    <x:complexType name="delete">
+        <x:sequence>
+            <x:element name="header" type="tns:header" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="response" type="tns:response" minOccurs="1" maxOccurs="1"/>
+        </x:sequence>
+
+        <x:attribute name="url" type="tns:nonEmptyString" use="required"/>
+    </x:complexType>
+
+    <x:complexType name="role">
+        <x:choice maxOccurs="unbounded">
+            <x:element name="get" type="tns:get" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="post" type="tns:post" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="put" type="tns:put" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="delete" type="tns:delete" minOccurs="0" maxOccurs="unbounded"/>
+            <x:element name="dump" type="tns:dump" minOccurs="0" maxOccurs="unbounded"/>
+        </x:choice>
+
+        <x:attribute name="credentials" type="tns:nonEmptyString" use="required"/>
+    </x:complexType>
+
+    <x:simpleType name="nonEmptyString">
+        <x:restriction base="x:string">
+            <x:minLength value="1"/>
+        </x:restriction>
+    </x:simpleType>
+
+    <x:complexType name="dump">
+        <x:sequence>
+            <x:element name="sql" minOccurs="1" maxOccurs="unbounded">
+                <x:simpleType>
+                    <x:restriction base="x:string">
+                        <x:pattern value="SELECT.*"/>
+                    </x:restriction>
+                </x:simpleType>
+            </x:element>
+        </x:sequence>
+
+        <x:attribute name="file" type="tns:nonEmptyString" use="required"/>
+    </x:complexType>
+
+    <x:complexType name="header">
+        <x:simpleContent>
+            <x:extension base="x:string">
+                <x:attribute name="name" type="tns:nonEmptyString" use="required"/>
+                <x:attribute name="value" type="tns:nonEmptyString" use="required"/>
+            </x:extension>
+        </x:simpleContent>
+    </x:complexType>
+
+    <!--
+       TODO RAW file ability should be provided here { for example raw json/xml request }
+    -->
+
+    <x:complexType name="body">
+        <x:sequence>
+            <x:element name="param" minOccurs="0" maxOccurs="unbounded">
+                <x:complexType>
+                    <x:simpleContent>
+                        <x:extension base="x:string">
+                            <x:attribute name="name" type="tns:nonEmptyString" use="required"/>
+                            <x:attribute name="value" type="tns:nonEmptyString" use="required"/>
+                        </x:extension>
+                    </x:simpleContent>
+                </x:complexType>
+            </x:element>
+            <x:element name="file" minOccurs="0" maxOccurs="unbounded">
+                <x:complexType>
+                    <x:simpleContent>
+                        <x:extension base="x:string">
+                            <x:attribute name="name" type="tns:nonEmptyString" use="required"/>
+                            <x:attribute name="path" type="tns:nonEmptyString" use="required"/>
+                            <x:attribute name="fileName" type="tns:nonEmptyString" use="optional"/>
+                        </x:extension>
+                    </x:simpleContent>
+                </x:complexType>
+            </x:element>
+        </x:sequence>
+    </x:complexType>
+</x:schema>
+
+
+

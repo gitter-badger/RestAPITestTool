@@ -1,0 +1,21 @@
+<config active="true" xmlns="config">
+
+    <description>Some information about test</description>
+
+    <delete url="/file/create">
+        <header name="Gzip" value="yes"/>
+        <header name="asd" value="asd"/>
+
+        <response code="400" file="/action_1.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </delete>
+
+    <delete url="/file/create">
+        <response code="400" />
+    </delete>
+</config>
+
+
+
+
