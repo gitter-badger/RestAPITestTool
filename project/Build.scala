@@ -32,5 +32,5 @@ object Build extends Build {
       test(scalatest)
     )
 
-  lazy val comparatorProject = RootProject(uri("git@github.com:ximagination80/Comparator.git"))
+  lazy val comparatorProject = RootProject(uri("git://github.com/ximagination80/Comparator.git"))
 }
