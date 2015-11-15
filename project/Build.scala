@@ -19,7 +19,7 @@ object Build extends Build {
         imaginationComparator
       )
     )
-    .dependsOn(configParser)
+    .dependsOn(configParser,comparatorProject)
     .aggregate(configParser)
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -31,4 +31,6 @@ object Build extends Build {
     .settings(libraryDependencies ++=
       test(scalatest)
     )
+
+  lazy val comparatorProject = RootProject(uri("git@github.com:ximagination80/Comparator.git"))
 }
