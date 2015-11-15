@@ -168,7 +168,7 @@ object Parser {
     }
   }
 
-  case class FileLinkingError(start:File,root:File,fileKey:String) extends RuntimeException(
+  case class FileLinkingError(start: File, root: File, fileKey: String) extends RuntimeException(
     s"""
       Unable to find file by key [$fileKey].
       Initial scan folder [$start] with strategy recursive walk to root folder

@@ -25,10 +25,10 @@ class Check extends FunSuite {
 
     assert(collector.collect().length == 10)
 
-    val seq: Seq[Either[Throwable, Config]] = collector.getConfigs
+    val seq: Seq[(File,Either[Throwable, Config])] = collector.getConfigs
     assert(seq.length == 10)
-    assert(seq.count(_.isRight) === 9)
-    assert(seq.count(_.isLeft) === 1)
+    assert(seq.map(_._2).count(_.isRight) === 9)
+    assert(seq.map(_._2).count(_.isLeft) === 1)
   }
 
   test("FILE LINKING ERROR") {

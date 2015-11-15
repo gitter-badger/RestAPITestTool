@@ -20,6 +20,7 @@ object Build extends Build {
       )
     )
     .dependsOn(configParser)
+    .aggregate(configParser)
 
   // -------------------------------------------------------------------------------------------------------------------
   // Modules

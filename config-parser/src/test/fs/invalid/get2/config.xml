@@ -1,0 +1,20 @@
+<config active="true" xmlns="config">
+
+    <description>Some information about test</description>
+
+    <get url="/file?folder_id=15">
+        <header name="1" value="1"/>
+        <response code="200" file="/action_1.json">
+            <header name="Content-Type" value="application/json; charset=utf-8"/>
+        </response>
+    </get>
+
+    <get url="/user/1">
+        <response code=""/>
+    </get>
+
+</config>
+
+
+
+

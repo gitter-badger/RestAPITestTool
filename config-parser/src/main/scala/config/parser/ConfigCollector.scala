@@ -20,8 +20,8 @@ case class ConfigCollector(dir: File, pattern: Pattern) {
     collectConfigs(dir).filter(e => e.isFile && e.getName == "config.xml" && matchesPathPattern(pattern, e))
   }
 
-  def getConfigs: Seq[Either[Throwable, Config]] = {
-    collect().map(e => execute(Parser.parse(e, dir)))
+  def getConfigs: Seq[(File, Either[Throwable, Config])] = {
+    collect().map(e => (e, execute(Parser.parse(e, dir))))
   }
 
   def execute[T](f: => T): Either[Throwable, T] = try Right(f) catch {
