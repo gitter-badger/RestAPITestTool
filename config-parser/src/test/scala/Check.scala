@@ -23,12 +23,12 @@ class Check extends FunSuite {
   test("CONFIG COLLECTOR") {
     val collector = ConfigCollector(resDir,Pattern.compile(".*"))
 
-    assert(collector.collect().length == 10)
+    assert(collector.collect().length == 11)
 
     val seq: Seq[(File,Either[Throwable, Config])] = collector.getConfigs
-    assert(seq.length == 10)
+    assert(seq.length == 11)
     assert(seq.map(_._2).count(_.isRight) === 9)
-    assert(seq.map(_._2).count(_.isLeft) === 1)
+    assert(seq.map(_._2).count(_.isLeft) === 2)
   }
 
   test("FILE LINKING ERROR") {
